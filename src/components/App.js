@@ -1,13 +1,17 @@
-
-import React from "react";
-import './../styles/App.css';
+import React from 'react';
+import Autocomplete from './Autocomplete';
 
 const App = () => {
+  const locations = [
+    'New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix',
+    'San Francisco', 'Dallas', 'San Jose', 'Main Street', 'Maple Avenue'
+  ];
+
   return (
     <div>
-        {/* Do not remove the main div */}
+      <Autocomplete suggestions={locations} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
