@@ -7,18 +7,18 @@ const Autocomplete = ({ suggestions = [] }) => {
   const [citylist, setcitylist] = useState([]);
   const [flag, setflag]       = useState(false);
 
-  function handleinputvalue(e) {
-    const current = e.target.value;
+ function handleinputvalue(e) {
+  const current = e.target.value;
 
-    // suggestions is always an array now, so this can't blow up:
-    const filteredvalue = suggestions.filter((value) =>
-      value.includes(current)
-    );
+  const filteredvalue = suggestions.filter((value) =>
+    value.toLowerCase().includes(current.toLowerCase())
+  );
 
-    setinput(current);
-    setcitylist(filteredvalue);
-    setflag(true);
-  }
+  setinput(current);
+  setcitylist(filteredvalue);
+  setflag(true);
+}
+
 
   function handleClick(suggestion) {
     setinput(suggestion);
