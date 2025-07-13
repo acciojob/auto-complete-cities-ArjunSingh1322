@@ -1,59 +1,55 @@
 
-
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const Autocomplete = ({ suggestions = [] }) => {
-  const [input, setinput]     = useState("");
-  const [citylist, setcitylist] = useState([]);
-  const [flag, setflag]       = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
- function handleinputvalue(e) {
-  const current = e.target.value;
-
-  const filteredvalue = suggestions.filter((value) =>
-    value.toLowerCase().includes(current.toLowerCase())
-  );
-
-  setinput(current);
-  setcitylist(filteredvalue);
-  setflag(true);
-}
-
-
-  function handleClick(suggestion) {
-    setinput(suggestion);
-    setcitylist([]);
-    setflag(false);
-  }
-
-  function RenderSuggestions() {
-    if (!flag || !input) return null;
-
-    if (citylist.length === 0) {
-      return <div>No suggestions available.</div>;
-    }
-
-    return (
-      <ul>
-        {citylist.map((s, i) => (
-          <li key={i} onClick={() => handleClick(s)}>
-            {s}
-          </li>
-        ))}
-      </ul>
+  const handleInputChange = (e) => {
+    const userInput = e.target.value;
+    setInputValue(userInput);
+    
+    // Filter Indian cities that contain the user input (case insensitive)
+    const filtered = suggestions.filter(
+      city => city.toLowerCase().includes(userInput.toLowerCase())
     );
-  }
+    
+    setFilteredSuggestions(filtered);
+    setShowSuggestions(true);
+  };
+
+  const handleSuggestionClick = (city) => {
+    setInputValue(city);
+    setFilteredSuggestions([]);
+    setShowSuggestions(false);
+  };
 
   return (
-    <div>
+    <div className="autocomplete">
       <input
         type="text"
-        placeholder="Enter City Name"
-        onChange={handleinputvalue}
-        value={input}
+        value={inputValue}
+        onChange={handleInputChange}
+        placeholder="Type an Indian city..."
       />
-
-      {RenderSuggestions()}
+      
+      {showSuggestions && inputValue && (
+        <ul className="suggestions">
+          {filteredSuggestions.map((city) => (
+            <li 
+              key={city} 
+              onClick={() => handleSuggestionClick(city)}
+            >
+              {city}
+            </li>
+          ))}
+          
+          {filteredSuggestions.length === 0 && (
+            <li className="no-results">No cities found</li>
+          )}
+        </ul>
+      )}
     </div>
   );
 };
